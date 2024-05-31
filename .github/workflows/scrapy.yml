@@ -1,0 +1,31 @@
+name: Scrapy Workflow
+
+on:
+  schedule:
+    # Run at 01:50 AM UTC every Friday
+    - cron: '50 1 * * 5'
+  workflow_dispatch:
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.x  # Use your preferred Python version
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Run Scrapy spider
+      run: |
+        cd FundingProject/FundingProject/spiders
+        python run_spider.py
+
